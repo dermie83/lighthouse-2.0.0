@@ -8,31 +8,27 @@ import { connectMongo } from "./mongo/connect.js";
 import { userMongoStore } from "./mongo/user-mongo-store.js";
 import { groupMongoStore } from "./mongo/group-mongo-store.js";
 import { lighthouseMongoStore } from "./mongo/lighthouse-mongo-store.js";
-
-
-
 export const db = {
-  userStore: null,
-  groupStore: null,
-  lighthouseStore: null,
-
-  init(storeType) {
-    switch (storeType) {
-      case "json":
-        this.userStore = userJsonStore;
-        this.groupStore = groupJsonStore;
-        this.lighthouseStore = lighthouseJsonStore;
-        break;
-      case "mongo":
-        this.userStore = userMongoStore;
-        this.groupStore = groupMongoStore;
-        this.lighthouseStore = lighthouseMongoStore;
-        connectMongo();
-        break;
-      default:
-        this.userStore = userMemStore;
-        this.groupStore = groupMemStore;
-        this.lighthouseStore = lighthouseMemStore;
-    }
-  },
+    userStore: null,
+    groupStore: null,
+    lighthouseStore: null,
+    init(storeType) {
+        switch (storeType) {
+            case "json":
+                this.userStore = userJsonStore;
+                this.groupStore = groupJsonStore;
+                this.lighthouseStore = lighthouseJsonStore;
+                break;
+            case "mongo":
+                this.userStore = userMongoStore;
+                this.groupStore = groupMongoStore;
+                this.lighthouseStore = lighthouseMongoStore;
+                connectMongo();
+                break;
+            default:
+                this.userStore = userMemStore;
+                this.groupStore = groupMemStore;
+                this.lighthouseStore = lighthouseMemStore;
+        }
+    },
 };

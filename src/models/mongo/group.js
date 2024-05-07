@@ -1,14 +1,10 @@
-import Mongoose from "mongoose";
-
-const { Schema } = Mongoose;
-
+import { Schema, model } from "mongoose";
 const groupSchema = new Schema({
-  title: String,
-  img: String,
-  userid: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
+    title: String,
+    img: String,
+    _id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
-
-export const Group = Mongoose.model("Group", groupSchema);
+export const GroupMongoose = model("Group", groupSchema);
