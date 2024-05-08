@@ -1,10 +1,10 @@
-// import { lighthouseSpec } from "../models/joi-schemas.js";
 import { UserSpec } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 
 export const adminController = {
   index: {
-    handler: async function (request, h) {
+    handler: async function (request:Request, h:ResponseToolkit) {
       const users = await db.userStore.getAllUsers();
       const loggedInUser = request.auth.credentials;
 
@@ -20,7 +20,7 @@ export const adminController = {
   },
  
   editUser: {
-    handler: async function (request, h) {
+    handler: async function (request:Request, h:ResponseToolkit) {
       console.log("Editing User: " , request.params.id);
       const loggedInUser = request.auth.credentials;
 
@@ -40,18 +40,19 @@ export const adminController = {
     validate: {
       payload: UserSpec,
       options: { abortEarly: false },
-      failAction: function (request, h, error) {
+      failAction: function (request:Request, h:ResponseToolkit, error:any) {
         return h.view("edit-user-view", { title: "edit profile error", errors: error.details }).takeover().code(400);
       },
     },
-    handler: async function (request, h) {
+    handler: async function (request:Request, h:ResponseToolkit) {
       const user = await db.userStore.getUserById(request.params.id);
+      const adminPayload = request.payload as any;
       console.log("loggedInUserID", user)
       const updateUser = {
-        firstName: request.payload.firstName,
-        lastName: request.payload.lastName,
-        password: request.payload.password,
-        email: request.payload.email,
+        firstName: adminPayload.firstName,
+        lastName: adminPayload.lastName,
+        password: adminPayload.password,
+        email: adminPayload.email,
       };
       console.log("updateuser", updateUser)
       await db.userStore.updateUser(user._id, updateUser);
@@ -60,7 +61,7 @@ export const adminController = {
   },
 
   deleteUser: {
-    handler: async function (request, h) {
+    handler: async function (request:Request, h:ResponseToolkit) {
       await db.userStore.deleteUserById(request.params.id);
       return h.redirect("/admin");
     },

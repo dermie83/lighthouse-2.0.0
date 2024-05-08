@@ -11,7 +11,7 @@ const lighthouseSchema = new Schema<Lighthouse>({
   lat: Number,
   lng: Number,
   
-  groupid: {
+  group_id: {
     type: Schema.Types.ObjectId,
     ref: "group",
   }

@@ -12,13 +12,13 @@ import { fileURLToPath } from "url";
 import Handlebars from "handlebars";
 import { accountsController } from "./controllers/accounts-controller.js";
 import { webRoutes } from "./web-routes.js";
-import { db } from "./models/db.js";
+import { connectDb } from "./models/db.js";
 import { apiRoutes } from "./api-routes.js";
 import { validate } from "./api/jwt-utils.js";
 const swaggerOptions = {
     info: {
         title: "Irish Lighthouses API",
-        version: "0.1",
+        version: "1.0",
     },
     securityDefinitions: {
         jwt: {
@@ -79,7 +79,7 @@ async function init() {
         verifyOptions: { algorithms: ["HS256"] }
     });
     server.auth.default("session");
-    db.init("mongo");
+    connectDb("mongo");
     server.route(webRoutes);
     server.route(apiRoutes);
     await server.start();

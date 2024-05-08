@@ -7,17 +7,17 @@ export const lighthouseMongoStore = {
     return lighthouses;
   },
 
-  async getLighthousesByGroupId(id: string) {
-    const lighthouses = await LighthouseMongoose.find({ groupid: id }).lean();
+  async getLighthousesByGroupId(id: string): Promise<Lighthouse[] | null> {
+    const lighthouses = await LighthouseMongoose.find({ group_id: id as any}).lean();
     if (!lighthouses) {
       return null;
     }
     return lighthouses;
   },
 
-  async addLighthouse(groupId: string, lighthouse: string) {
+  async addLighthouse(groupId: Group, lighthouse: Lighthouse): Promise<Lighthouse | null> {
     // get the group id
-    lighthouse.groupid = groupId;
+    lighthouse.group_id = groupId;
     // create a new lighthouse object/array
     let newLighthouse = new LighthouseMongoose(lighthouse);
     // save the new lighthouse object/array
@@ -26,7 +26,7 @@ export const lighthouseMongoStore = {
     return this.getLighthouseById(lighthouseObj._id);
   },
 
-  async getLighthouseById(id:string) {
+  async getLighthouseById(id:string): Promise<Lighthouse | null> {
     if (id) {
       const lighthouse = await LighthouseMongoose.findOne({ _id: id }).lean();
       return lighthouse;

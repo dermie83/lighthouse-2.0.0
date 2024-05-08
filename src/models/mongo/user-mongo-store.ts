@@ -16,14 +16,14 @@ export const userMongoStore = {
     return null;
   },
 
-  async addUser(user: User): Promise<User | null> {
+  async addUser(user: User): Promise<User[] | null> {
     const newUser = new UserMongoose(user);
     const userObj = await newUser.save();
     const u = await this.getUserById(userObj._id);
     return u;
   },
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  async getUserByEmail(email: string) {
     const user = await UserMongoose.findOne({ email: email }).lean();
     return user;
   },
@@ -40,13 +40,13 @@ export const userMongoStore = {
     await UserMongoose.deleteMany({});
   },
 
-  // async updateUser(userID: string, updatedUser) {
-  //   const user = await User.findOne({ _id: userID });
-  //   user.firstName = updatedUser.firstName;
-  //   user.lastName = updatedUser.lastName;
-  //   user.email = updatedUser.email;
-  //   user.password = updatedUser.password;
-  //   const updatedUserObj = await user.save();
-  //   return updatedUserObj;
-  // },
+  async updateUser(userID: string, updatedUser:User) {
+    const user = await UserMongoose.findOne({ _id: userID });
+    user.firstName = updatedUser.firstName;
+    user.lastName = updatedUser.lastName;
+    user.email = updatedUser.email;
+    user.password = updatedUser.password;
+    const updatedUserObj = await user.save();
+    return updatedUserObj;
+  },
 };

@@ -32,13 +32,13 @@ export const userMongoStore = {
     async deleteAll() {
         await UserMongoose.deleteMany({});
     },
-    // async updateUser(userID: string, updatedUser) {
-    //   const user = await User.findOne({ _id: userID });
-    //   user.firstName = updatedUser.firstName;
-    //   user.lastName = updatedUser.lastName;
-    //   user.email = updatedUser.email;
-    //   user.password = updatedUser.password;
-    //   const updatedUserObj = await user.save();
-    //   return updatedUserObj;
-    // },
+    async updateUser(userID, updatedUser) {
+        const user = await UserMongoose.findOne({ _id: userID });
+        user.firstName = updatedUser.firstName;
+        user.lastName = updatedUser.lastName;
+        user.email = updatedUser.email;
+        user.password = updatedUser.password;
+        const updatedUserObj = await user.save();
+        return updatedUserObj;
+    },
 };

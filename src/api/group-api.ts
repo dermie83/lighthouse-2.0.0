@@ -1,5 +1,4 @@
 import Boom from "@hapi/boom";
-// import { PlaylistSpec } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
 import { GroupSpec, GroupSpecPlus, IdSpec, GroupArray } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";

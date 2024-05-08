@@ -1,5 +1,5 @@
 import { lighthouseMongoStore } from "./lighthouse-mongo-store.js";
-import { Group, User } from "../../types/donation-types.js";
+import { Group } from "../../types/donation-types.js";
 import { GroupMongoose } from "./group.js";
 
 export const groupMongoStore = {
@@ -12,7 +12,7 @@ export const groupMongoStore = {
     if (id) {
       const group = await GroupMongoose.findOne({ _id: id }).lean();
       if (group) {
-        group.lighthouses = await lighthouseMongoStore.getLighthousesByGroupId(group._id);
+        group.lighthouses = await lighthouseMongoStore.getLighthousesByGroupId(group._id as any);
       }
       return group;
     }
@@ -25,9 +25,9 @@ export const groupMongoStore = {
     return this.getGroupById(groupObj._id);
   },
 
-  async getUserGroups(id:string): Promise<Group | null> {
-    const group = await GroupMongoose.find({ userid: id }).lean();
-    return group;
+  async getUserGroups(id:string): Promise<Group[] | null> {
+    const group = await GroupMongoose.find({ user_id: id }).lean();
+    return this.getGroupById(group);
   },
 
   async deleteGroupById(id: string){
@@ -43,7 +43,7 @@ export const groupMongoStore = {
   },
 
   async updateGroup(updatedGroup:Group) {
-    const group = await GroupMongoose.findOne({ _id: updatedGroup._id });
+    const group = await GroupMongoose.findOne({ _id: updatedGroup.user_id });
     group.title = updatedGroup.title;
     group.img = updatedGroup.img;
     await group.save();

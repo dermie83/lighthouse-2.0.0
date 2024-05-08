@@ -1,10 +1,10 @@
 import { db } from "../models/db.js";
 import { LighthouseSpec} from "../models/joi-schemas.js";
-// import { GroupSpec} from "../models/joi-schemas.js";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 
 export const lighthouseController = {
   index: {
-    handler: async function (request, h) {
+    handler: async function (request:Request, h:ResponseToolkit) {
       const group = await db.groupStore.getGroupById(request.params.id);
       console.log("groupID", group._id)
       const lighthouse = await db.lighthouseStore.getLighthouseById(request.params.lighthouseid);
@@ -23,7 +23,7 @@ export const lighthouseController = {
     validate: {
       payload: LighthouseSpec,
       options: { abortEarly: false },
-      failAction: function (request, h, error) {
+      failAction: function (request:Request, h:ResponseToolkit, error:any) {
         return h.view("edit-lighthouse-view", { title: "Update Lighthouse error", errors: error.details }).takeover().code(400);
       },
     },

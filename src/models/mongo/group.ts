@@ -4,7 +4,7 @@ import { Group } from "../../types/donation-types";
 const groupSchema = new Schema<Group>({
   title: String,
   img: String,
-  _id: {
+  user_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },

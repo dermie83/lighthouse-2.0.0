@@ -9,6 +9,7 @@ export const groupMongoStore = {
         if (id) {
             const group = await GroupMongoose.findOne({ _id: id }).lean();
             if (group) {
+                // @ts-ignore
                 group.lighthouses = await lighthouseMongoStore.getLighthousesByGroupId(group._id);
             }
             return group;
@@ -22,7 +23,7 @@ export const groupMongoStore = {
     },
     async getUserGroups(id) {
         const group = await GroupMongoose.find({ userid: id }).lean();
-        return group;
+        return this.getGroupById(group);
     },
     async deleteGroupById(id) {
         try {

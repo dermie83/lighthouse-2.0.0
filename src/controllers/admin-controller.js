@@ -1,4 +1,3 @@
-// import { lighthouseSpec } from "../models/joi-schemas.js";
 import { UserSpec } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
 export const adminController = {
@@ -41,12 +40,13 @@ export const adminController = {
         },
         handler: async function (request, h) {
             const user = await db.userStore.getUserById(request.params.id);
+            const adminPayload = request.payload;
             console.log("loggedInUserID", user);
             const updateUser = {
-                firstName: request.payload.firstName,
-                lastName: request.payload.lastName,
-                password: request.payload.password,
-                email: request.payload.email,
+                firstName: adminPayload.firstName,
+                lastName: adminPayload.lastName,
+                password: adminPayload.password,
+                email: adminPayload.email,
             };
             console.log("updateuser", updateUser);
             await db.userStore.updateUser(user._id, updateUser);

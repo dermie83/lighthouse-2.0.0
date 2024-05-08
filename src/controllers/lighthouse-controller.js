@@ -1,6 +1,5 @@
 import { db } from "../models/db.js";
 import { LighthouseSpec } from "../models/joi-schemas.js";
-// import { GroupSpec} from "../models/joi-schemas.js";
 export const lighthouseController = {
     index: {
         handler: async function (request, h) {

@@ -9,10 +9,10 @@ export type User = {
   export type Group = {
     title: string;
     img: string;
-    _id: User | string;
+    user_id: User | string;
   };
   
-  export type Lighthouse = {
+  export interface Lighthouse {
     title: string;
     towerHeight: number;
     lightHeight: number;
@@ -21,5 +21,11 @@ export type User = {
     range: number;
     lat: number;
     lng: number;
-    groupid: Group | string;
+    group_id: Group | string;
+  };
+
+  export type Db = {
+    userStore: any;
+    groupStore: any;
+    lighthouseStore: any;
   };

@@ -26,9 +26,10 @@ export const dashboardController = {
         },
         handler: async function (request, h) {
             const loggedInUser = request.auth.credentials;
+            const dashPayload = request.payload;
             const newGroup = {
                 userid: loggedInUser._id,
-                title: request.payload.title,
+                title: dashPayload.title,
             };
             await db.groupStore.addGroup(newGroup);
             return h.redirect("/dashboard");
